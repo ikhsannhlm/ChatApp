@@ -109,10 +109,10 @@ public class User {
         return null;
     }
 
-    public static void createUser(String username, String number){
+    public static boolean createUser(String username, String number){
         Connection DB = DBConnection.getDB();
         List<User> userList= importUser();
-
+        boolean result = false;
         try {
             
             for (User user : userList) {
@@ -120,17 +120,30 @@ public class User {
                     throw new SQLException("User with the same username and number already exists. Please try again.\n");
                 }
             }
+            
+            if (username.isEmpty()) {
+            	throw new SQLException("Username cant be empty");
+            }
+            if (number.isEmpty()) {
+            	throw new SQLException("Number cant be empty");
+            }
 
             String insert = "INSERT INTO Account (AccountName, AccountNumber) VALUES (?,?)";
             PreparedStatement st = DB.prepareStatement(insert);
             st.setString(1,username);
             st.setString(2,number);
             st.executeUpdate();
+            
+            st.close();
+            
+            result = true;
+            
         }
-
         catch(SQLException E){
             E.printStackTrace();
         }
+        
+        return result;
     }
 
     public static List<User> importUser(){

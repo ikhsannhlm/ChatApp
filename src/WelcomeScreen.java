@@ -1,16 +1,13 @@
-import java.util.Scanner;
 
 public class WelcomeScreen {
-    private Scanner input;
 
-    public WelcomeScreen() {
-        input = new Scanner(System.in);
-    }
+    public static String getOption() {
 
-    public String getOption() {
         System.out.println();
         System.out.println("Welcome to ChatApp");
         System.out.print("Do you have an Account? (y/n): ");
-        return input.nextLine();
+        String choice = GlobalScanner.getScanner().nextLine(); 
+        return choice;
+        
     }
 }

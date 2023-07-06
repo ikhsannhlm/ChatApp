@@ -1,26 +1,21 @@
-import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class App {
-    private WelcomeScreen welcomeScreen;
     private SignInScreen signInScreen;
-    private SignUpScreen signUpScreen;
     private MainMenu menu;
     private CurrentUser currentUser;
     private List<User> userList;
 
     public App() {
-        welcomeScreen = new WelcomeScreen();
         userList = new ArrayList<>();
-        signInScreen = new SignInScreen(userList);
-        signUpScreen = new SignUpScreen(userList);
+        signInScreen = new SignInScreen();
         currentUser = null;
         menu = new MainMenu(currentUser, userList);
     }
 
     public void startApp() {
-        String choice = welcomeScreen.getOption();
+        String choice = WelcomeScreen.getOption();
 
         if (choice.equalsIgnoreCase("y")) {
             signIn();
@@ -45,15 +40,17 @@ public class App {
     }
 
     public void signUp() {
-        currentUser = signUpScreen.signUp();
+    	
+        boolean signUp = SignUpScreen.signUp();
 
-        if (currentUser != null) {
+        if (signUp == true) {
             System.out.println("Sign Up Success..");
             startApp();
         } else {
             System.out.println("Sign Up Failed..");
             startApp();
         }
+        
     }
 
     public void menu() {
@@ -63,9 +60,9 @@ public class App {
     }
 
     public static void main(String[] args) {
-        App app = new App();
+
+    	App app = new App();
         app.startApp();
-        
 
     }
 }
