@@ -1,6 +1,7 @@
 /App.class
 /CurrentUser.class
 /DBConnection.class
+/GlobalScanner.class
 /Group.class
 /MainMenu.class
 /Message.class
@@ -9,4 +10,3 @@
 /User.class
 /WelcomeScreen.class
 /test.class
-/GlobalScanner.class
