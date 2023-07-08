@@ -64,7 +64,7 @@ public class MainMenu {
         System.out.println("========");
         displayStatus();
         System.out.println("Chat Available:");
-        currentUser.displayReceivedChat();
+        //currentUser.displayReceivedChat();
         System.out.println("Show grouplist");
         System.out.println();
         System.out.println("Menu: ");

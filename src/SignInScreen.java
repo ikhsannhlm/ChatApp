@@ -6,7 +6,7 @@ public class SignInScreen {
     private Scanner input;
 
     public SignInScreen() {
-        this.userList = User.importUser();
+        this.userList = DatabaseHandler.importUser();
         input = new Scanner(System.in);
     }
 
@@ -21,7 +21,7 @@ public class SignInScreen {
 
         for (User user : userList) {
             if (user.getUsername().equals(username) && user.getNumber().equals(number)) {
-                return new CurrentUser(user.getUsername(), user.getNumber());
+                return new CurrentUser(user);
             }
         }
 

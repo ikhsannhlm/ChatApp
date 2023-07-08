@@ -10,7 +10,7 @@ public class SignUpScreen {
         String username = GlobalScanner.getScanner().nextLine();
         System.out.print("Enter your number: ");
         String number = GlobalScanner.getScanner().nextLine();
-        result = User.createUser(username, number);
+        result = DatabaseHandler.createUser(username, number);
         return result;
         
     }
