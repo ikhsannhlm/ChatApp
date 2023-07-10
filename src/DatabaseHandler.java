@@ -1,9 +1,15 @@
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.JOptionPane;
 
 public class DatabaseHandler {
 	/*
@@ -80,6 +86,9 @@ public class DatabaseHandler {
         return tUserList;
     }
     
+    /*
+     * Importing user contact
+     */
     public static List<User> importContact(String pUsername){
     	List<User> contactList = new ArrayList<>();
     	List<User> userList = importUser();
@@ -114,4 +123,91 @@ public class DatabaseHandler {
     	return contactList;
     }
     
+    /*
+     * save message to database
+     * @param recipient = User that recieve message
+     */
+    public static void createMessage(User recipient, User sender, String content) {
+    	
+    	List<Chat> listChat = importChat();
+    	
+    	try {
+			
+    		String query = "INSERT INTO Message (ChatID, MessageContent,SenderID, RecieverID, MessageDate, MessageTime) VALUES (?, ?, ?, ?, ?, ?)";
+    		PreparedStatement st = DB.prepareStatement(query);
+    		
+    		int pChatID = 0;
+    		int recipientID = recipient.getID();
+    		int senderID = sender.getID();
+    		
+    		for (Chat c : listChat) {
+    			if (c.getParticipant().contains(recipient.getUsername()) && c.getParticipant().contains(sender.getUsername())) {
+    				pChatID = c.getID();
+    			} else {
+    				createChat(recipient, sender); // create new chat in database
+    				createMessage(recipient, sender, content);
+    			}
+    		}
+    		
+    		if (pChatID != 0) {
+    			st.setInt(1, pChatID);
+                st.setString(2, content);
+                st.setInt(3, senderID);
+                st.setInt(4, recipientID);
+                st.setDate(5, Date.valueOf(LocalDate.now()));
+                st.setTime(6, Time.valueOf(LocalTime.now()));
+                st.execute();
+    		} else {
+    			throw new SQLException("Failed to sent Message!!");
+    		}
+    		
+    		st.close();
+
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		}
+    	
+    }
+    
+    /*
+     * importing chatID
+     */
+    public static List<Chat> importChat(){
+    	List<Chat> listChat = new ArrayList<>();
+    	List<User> listUser = importUser();
+    	
+    	try {
+			
+    		String query = "Select * from chat";
+    		PreparedStatement st = DB.prepareStatement(query);
+    		ResultSet rs = st.executeQuery();
+    		
+    		while (rs.next()) {
+    			int ID = rs.getInt("chatID");
+    			List<User> participant = new ArrayList<>();
+    			
+    			for (User u : listUser) {
+    				if (rs.getString("P1").equals(u.getUsername()) || rs.getString("P2").equals(u.getUsername())) {
+    					participant.add(u);
+    				}
+    			}
+    			
+    			Chat chat = new Chat(ID, participant);
+    			listChat.add(chat);
+    		}
+    		
+    		st.close();
+    		rs.close();
+    		
+		} catch (SQLException e) {
+			e.printStackTrace();		// using printStackTrace because this method are used in development and only behind the screen 
+		}
+    	
+    	return listChat;
+    }
+    
+    public static void createChat(User participant1, User participant2) {
+    	
+    }
+
 }
