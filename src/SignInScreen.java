@@ -6,11 +6,11 @@ public class SignInScreen {
     private Scanner input;
 
     public SignInScreen() {
-        this.userList = DatabaseHandler.importUser();
         input = new Scanner(System.in);
     }
 
     public CurrentUser signIn() {
+    	this.userList = DatabaseHandler.importUser();
         System.out.println();
         System.out.println("Sign In");
         System.out.println("========");

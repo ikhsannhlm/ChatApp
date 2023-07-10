@@ -6,8 +6,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DatabaseHandler {
+	/*
+	 * Implement DAO Pattern from Structural Design Pattern. This pattern encapsulate Data Access logic, keeping other code to keep clean.
+	 * Letting other class to interact with Database indirectly.
+	 */
 	private static Connection DB = DBConnection.getDB();
 	
+	/*
+	 * createUser
+	 * This method used to create and save new user account into database. Taking username and number as parameter.
+	 */
 	public static boolean createUser(String username, String number){
         List<User> userList= importUser();
         boolean result = false;
@@ -44,6 +52,10 @@ public class DatabaseHandler {
         return result;
     }
 
+	/*
+	 * importUser
+	 * This method import user account from database.
+	 */
     public static List<User> importUser(){
         List<User> tUserList = new ArrayList<>();
         try {
@@ -52,10 +64,11 @@ public class DatabaseHandler {
             ResultSet rs = st.executeQuery();
 
             while (rs.next()){
+            	int tAccountID = rs.getInt(1);
                 String tAccountName = rs.getString(2);
                 String tAccountNumber = rs.getString(3);
 
-                User tUser = new User(tAccountName, tAccountNumber);
+                User tUser = new User(tAccountID, tAccountName, tAccountNumber);
                 tUserList.add(tUser);
             }
             st.close();
@@ -77,31 +90,28 @@ public class DatabaseHandler {
     		PreparedStatement st = DB.prepareStatement(query);
     		ResultSet rs = st.executeQuery();
     		
-    		while (rs.next()) {
-    			User tUser = null;
-    			
-    			String[] tUserContact = rs.getString(1).split(","); 
-    			
-    			for (User u : userList) {
-    				if (rs.getString(2).equals(u.getUsername())) {
-    					tUser = u;
-    					break;
-    				}
-    			}
-    			for (User u : userList) {
-    				for (String c : tUserContact) {
-    					if (c.equals(u.getUsername())) {
-    						contactList.add(u);
-    					}
-    				}
-    			}
-    		}
+    		 if (rs.next()) {
+    			 String contactString = rs.getString(1);
+    	         if (contactString != null && !contactString.isEmpty()) {
+    	        	 String[] tUserContact = contactString.split(",");
+
+    	             for (User u : userList) {
+    	            	 for (String c : tUserContact) {
+    	            		 if (c.equals(u.getUsername())) {
+    	            			 contactList.add(u);
+    	            		 }
+    	            	 }
+    	             }
+    	             
+    	         }
+    	         
+    		 }
     		
 		} catch (SQLException e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
     	
     	return contactList;
     }
+    
 }

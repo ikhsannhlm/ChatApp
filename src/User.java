@@ -1,14 +1,17 @@
 
 public class User {
+	private int ID;
     private String username;
     private String number;
 
-    public User(String username, String number) {
+    public User(int ID, String username, String number) {
+    	this.ID = ID;
         this.username = username;
         this.number = number;
     }
     
     public User(User pUser) {
+    	this.ID = pUser.ID;
     	this.username = pUser.username;
     	this.number = pUser.number;
     }
@@ -22,24 +25,17 @@ public class User {
     public String getNumber() {
         return number;
     }
-/*
+    
+    // get ID, simply used to interact with Database
+    public int getID() {
+    	return ID;
+    }
+/*	
+ * Code in this section might be move to CurrentUser
     // Menambahkan Kontak kedalam List Kontak User
     public void addContact(User user) {
         contactList.add(user);
-    }
-
-    // Menampilkan Daftar list Kontak
-    public void displayContactList() {
-        System.out.println("Contact " + getUsername() + ": ");
-        if (contactList.isEmpty()) {
-            System.out.println("There's no contacts");
-        } else {
-            for (User contact : contactList) {
-                System.out.println(contact.getUsername() + " (" + contact.getNumber() + ")");
-            }
-        }
-        System.out.println();
-    }
+    }    
     
     // Mengirimkan Chat
     public void sendMessage(User recipient, String content) {
