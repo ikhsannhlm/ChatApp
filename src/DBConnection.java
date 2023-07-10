@@ -2,7 +2,7 @@ import java.sql.*;
 
 public class DBConnection {
     private static Connection vMysql;
-    private final static String url= "jdbc:mysql://192.168.218.11:3306/Chat";
+    private final static String url= "jdbc:mysql://192.168.146.11:3306/Chat";
     private final static String username= "test";
     private final static String password= "testpw";
     

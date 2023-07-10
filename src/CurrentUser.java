@@ -42,7 +42,7 @@ public class CurrentUser extends User {
             String username = GlobalScanner.getScanner().nextLine();
             
             for (User contact : contactList) {
-            	if (contact.getUsername().equals(username)) {
+            	if (contact.getUsername().equalsIgnoreCase(username)) {
             		System.out.print("Message Content: ");
             		String content = GlobalScanner.getScanner().nextLine();
             		sentMessage(contact, content);
