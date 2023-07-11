@@ -87,7 +87,7 @@ public class DatabaseHandler {
     }
     
     /*
-     * Importing user contact
+     * Importing user contact for certain User
      */
     public static List<User> importContact(String pUsername){
     	List<User> contactList = new ArrayList<>();
@@ -125,7 +125,8 @@ public class DatabaseHandler {
     
     /*
      * save message to database
-     * @param recipient = User that recieve message
+     * @param recipient = User that receive message
+     * @param sender = User that sent message
      */
     public static void createMessage(User recipient, User sender, String content) {
     	
@@ -141,8 +142,8 @@ public class DatabaseHandler {
     		int senderID = sender.getID();
     		
     		for (Chat c : listChat) {
-    			if (c.getParticipant().contains(recipient.getUsername()) && c.getParticipant().contains(sender.getUsername())) {
-    				pChatID = c.getID();
+    			if (c.getChatParticipant().contains(recipient.getUsername()) && c.getChatParticipant().contains(sender.getUsername())) {
+    				pChatID = c.getChatID();
     			} else {
     				createChat(recipient, sender); // create new chat in database
     				createMessage(recipient, sender, content);

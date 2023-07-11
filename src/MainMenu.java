@@ -25,7 +25,7 @@ public class MainMenu {
                 case 1:
                     System.out.println("Chat Personal");
                     System.out.println("=============");
-                    currentUser.showPersonalChatMenu();
+                    currentUser.sentPersonalChat();
                     break;
                 case 2:
                     System.out.println("Chat Group");
