@@ -1,6 +1,5 @@
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 
 public class Message {
 	private int vChatID;
@@ -9,7 +8,7 @@ public class Message {
     private String content;
     private LocalDate vMessageDate;
     private LocalTime vMessageTime;
-    private Group recipientGroup;
+    //private Group recipientGroup;
 
     /*
      * Constructor of Message
@@ -59,10 +58,12 @@ public class Message {
      */
     public String toString() {
     	String usernameAndNumber = "\u001B[92m" + sender.getUsername() + " (" + sender.getNumber() + ")" + "\u001B[0m";
+    	
     	String formattedString = String.format("%-30s %-10s%n%s", usernameAndNumber, vMessageTime, content);
     	return formattedString;
     }
     
+/*
     // Konstruktor
     public Message(User sender, Group recipientGroup, String content) {
         this.sender = sender;
@@ -89,25 +90,6 @@ public class Message {
     // Mendapatkan Isi Chat
     public String getContent() {
         return content;
-    }
-
-    // Mendapatkan Timestamp
-/*    
-  	public LocalDateTime getTimestamp() {
-        return vMessageDate;
-    }
-
-
-    // Override Kelas Object sehingga menghasilkan data yang dibutuhkan
-    public String toString() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
-        String formattedTimestamp = vMessageDate.format(formatter);
-
-        if (recipientUser != null) {
-            return "[" + formattedTimestamp + "] " + sender.getUsername() + ": " + content;
-        } else {
-            return "[" + formattedTimestamp + "] " + sender.getUsername() + ": " + content;
-        }
     }
 */
 }

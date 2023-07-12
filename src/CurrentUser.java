@@ -1,6 +1,9 @@
 import java.util.List;
 import java.util.Map;
 
+/*
+ * Currently, User can view ChatHistory (vUserChatList) only if that User add another user to their contactList 
+ */
 public class CurrentUser extends User {
 	/*
 	 * CurrentUser
@@ -75,10 +78,16 @@ public class CurrentUser extends User {
     	
     }
 
+    /*
+     * Update vUserChatList by re-import it from Database
+     */
     public void updateChatList() {
     	vUserChatList = DatabaseHandler.importMessage(this.getUsername());
     }
     
+    /*
+     * Display choice of User to see their Chat History with CurrentUser
+     */
     public void displayChat() {
     	if (vUserContactList.isEmpty()) {
             System.out.println("There's no contacts");
@@ -110,31 +119,17 @@ public class CurrentUser extends User {
         }
     }
     
+    /*
+     * Retrieve all Message with corresponding pChatID
+     * @param pChatID = unique key of a List of Messages
+     */
     public void showChat(int pChatID) {
     	List<Message> messageList = vUserChatList.get(pChatID);
     	for (Message m : messageList) {
     		System.out.println(m);
     	}
     }
-    /*
-     * 
-     *
-    public void addContact(User user) {
-        vUserContactList.add(user);
-        
-    }
-
-    public List<User> getContacts() {
-        return vUserContactList;
-    }
-    */
     
-    public Message getLastMessageWithUser(User user) {
-        // Implement logic to retrieve the last message between the current user and the specified user
-        // ...
-        return null; // Replace null with the actual last message
-    }
-
     //Menampilkan Info User
         public void displayUserInfo() {
         System.out.println("Username: " + getUsername());
