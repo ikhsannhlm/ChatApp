@@ -1,19 +1,36 @@
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 public class Message {
+	private int vChatID;
     private User sender;
     private User recipientUser;
-    private Group recipientGroup;
     private String content;
-    private LocalDateTime timestamp;
+    private LocalDate vMessageDate;
+    private LocalTime vMessageTime;
+    private Group recipientGroup;
 
     // Konstruktor
-    public Message(User sender, User recipientUser, String content) {
+    public Message(int pChatID, User sender, User recipientUser, String content) {
+    	this.vChatID = pChatID;
         this.sender = sender;
         this.recipientUser = recipientUser;
         this.content = content;
-        this.timestamp = LocalDateTime.now();
+    }
+    
+    public void setMessageDateTime(LocalDate pDate, LocalTime pTime) {
+    	if (pDate == null && pTime == null) {
+    		this.vMessageDate = LocalDate.now();
+            this.vMessageTime = LocalTime.now();
+    	} else {
+    		this.vMessageDate = pDate;
+    		this.vMessageTime = pTime;
+    	}
+    }
+    
+    public int getChatID() {
+    	return vChatID;
     }
     
     // Konstruktor
@@ -21,7 +38,7 @@ public class Message {
         this.sender = sender;
         this.recipientGroup = recipientGroup;
         this.content = content;
-        this.timestamp = LocalDateTime.now();
+        this.vMessageDate = LocalDate.now();
     }
 
     // Mendapatkan pengirim
@@ -45,15 +62,15 @@ public class Message {
     }
 
     // Mendapatkan Timestamp
-    public LocalDateTime getTimestamp() {
-        return timestamp;
-    }
+/*    public LocalDateTime getTimestamp() {
+        return vMessageDate;
+    }*/
 
 
     // Override Kelas Object sehingga menghasilkan data yang dibutuhkan
     public String toString() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
-        String formattedTimestamp = timestamp.format(formatter);
+        String formattedTimestamp = vMessageDate.format(formatter);
 
         if (recipientUser != null) {
             return "[" + formattedTimestamp + "] " + sender.getUsername() + ": " + content;

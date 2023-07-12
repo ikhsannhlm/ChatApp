@@ -1,6 +1,4 @@
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class CurrentUser extends User {
 	/*
@@ -9,8 +7,7 @@ public class CurrentUser extends User {
 	 * Made User can sent Message to other User that in vUserContactList and
 	 * Also provide them with Chat History (vUserChatList)
 	 */
-    private List<User> vUserContactList;
-    private Map<Integer, List<Message>> vUserChatList;
+    
 
     /*
      * Constructor of CurrentUser, Copy existing User from SuperClass and then add its ContactList
@@ -19,6 +16,7 @@ public class CurrentUser extends User {
     public CurrentUser(User pUser) {
         super(pUser);
         vUserContactList = DatabaseHandler.importContact(pUser.getUsername());
+        vUserChatList = DatabaseHandler.importMessage(pUser.getUsername());
     }
     
     /*
@@ -68,30 +66,14 @@ public class CurrentUser extends User {
     public void sentMessage(User pRecipient, String pMessageContent) {
     	// sent message -> invoke recieveMessage method of recipient, allowing recipient to add the Message to their chatList 
     	List<Chat> hChatList = DatabaseHandler.importChat();
-    	Message m = new Message(this, pRecipient, pMessageContent);
     	for (Chat c : hChatList) {
-    		if (c.getChatParticipant().contains(pRecipient.getUsername()) && c.getChatParticipant().contains(this.getUsername())) {
-    			receiveMessage(c.getChatID(), m);
+    		if (c.getChatParticipantUsername().contains(pRecipient.getUsername()) && c.getChatParticipantUsername().contains(this.getUsername())) {
+    			Message m = new Message(c.getChatID(), this, pRecipient, pMessageContent);
+    			pRecipient.receiveMessage(c.getChatID(), m);
     		}
     	}
     	// save to Database -> invoke createMessage method to save Message to database for Message history after user turn off the program
     	DatabaseHandler.createMessage(pRecipient, this, pMessageContent);
-    }
-    
-    /*
-     * Method to receive a Message from other User, Updating vUserChatList for certain ID
-     * @param pChatID = ID that assigned between two User
-     * @param pMessage = Message that will be saved to messageList
-     */
-    public void receiveMessage(int pChatID, Message pMessage) {
-    	// Update List<Message> by its ChatID (key of Map)
-    	List<Message> messageList = vUserChatList.get(pChatID);
-        if (messageList == null) {
-            messageList = new ArrayList<>();
-            vUserChatList.put(pChatID, messageList);
-        }
-        messageList.add(pMessage);
-        vUserChatList.put(pChatID, messageList);
     }
 
     /*

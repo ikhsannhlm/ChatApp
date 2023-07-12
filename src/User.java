@@ -1,13 +1,20 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class User {
 	private int ID;
     private String username;
     private String number;
+    protected List<User> vUserContactList;
+    protected Map<Integer, List<Message>> vUserChatList;
 
     public User(int ID, String username, String number) {
     	this.ID = ID;
         this.username = username;
         this.number = number;
+        this.vUserChatList = new HashMap<>();
     }
     
     public User(User pUser) {
@@ -30,6 +37,23 @@ public class User {
     public int getID() {
     	return ID;
     }
+    
+    /*
+     * Method to receive a Message from other User, Updating vUserChatList for certain ID
+     * @param pChatID = ID that assigned between two User
+     * @param pMessage = Message that will be saved to messageList
+     */
+    public void receiveMessage(int pChatID, Message pMessage) {
+    	// Update List<Message> by its ChatID (key of Map)
+    	List<Message> messageList = vUserChatList.getOrDefault(pChatID, new ArrayList<>());
+        if (messageList == null) {
+            messageList = new ArrayList<>();
+            vUserChatList.put(pChatID, messageList); // i think this one are unnecessary
+        }
+        messageList.add(pMessage);
+        vUserChatList.put(pChatID, messageList);
+    }
+    
 /*	
  * Code in this section might be move to CurrentUser
     // Menambahkan Kontak kedalam List Kontak User

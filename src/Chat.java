@@ -33,7 +33,7 @@ public class Chat {
 	 * Method used to retrieve list of participant Username of certain Chat
 	 * @return List of participant Username (participantUsername)
 	 */
-	public List<String> getChatParticipant(){
+	public List<String> getChatParticipantUsername(){
 		List<String> participantUsername = new ArrayList<>();
 		
 		for (User u : vChatParticipant) {
@@ -41,5 +41,18 @@ public class Chat {
 		}
 		
 		return participantUsername;
+	}
+	
+	/*
+	 * Method used to retrieve list of participant of certain Chat
+	 * @return List of Participant (User)
+	 */
+	public List<User> getChatParticipant(){
+		return vChatParticipant;
+	}
+	
+	public String toString() {
+		return "ChatID: " + vChatID +
+				"\nChatParticipant: " + getChatParticipantUsername();
 	}
 }
