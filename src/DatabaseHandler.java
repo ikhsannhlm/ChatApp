@@ -282,6 +282,9 @@ public class DatabaseHandler {
     	return listChat;
     }
     
+    /*
+     * @return hChatID = retrieve new generated ChatID if chat doesnt exist (in createMessage)
+     */
     public static int createChat(User participant1, User participant2) {
     	int hChatID = 0;
     	try {

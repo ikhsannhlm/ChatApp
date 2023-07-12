@@ -1,4 +1,5 @@
 import java.util.List;
+import java.util.Map;
 
 public class CurrentUser extends User {
 	/*
@@ -7,6 +8,8 @@ public class CurrentUser extends User {
 	 * Made User can sent Message to other User that in vUserContactList and
 	 * Also provide them with Chat History (vUserChatList)
 	 */
+    protected List<User> vUserContactList;
+    protected Map<Integer, List<Message>> vUserChatList;
     
 
     /*
@@ -65,6 +68,7 @@ public class CurrentUser extends User {
      */
     public void sentMessage(User pRecipient, String pMessageContent) {
     	// sent message -> invoke recieveMessage method of recipient, allowing recipient to add the Message to their chatList 
+    	/*
     	List<Chat> hChatList = DatabaseHandler.importChat();
     	for (Chat c : hChatList) {
     		if (c.getChatParticipantUsername().contains(pRecipient.getUsername()) && c.getChatParticipantUsername().contains(this.getUsername())) {
@@ -72,10 +76,16 @@ public class CurrentUser extends User {
     			pRecipient.receiveMessage(c.getChatID(), m);
     		}
     	}
+    	*/
     	// save to Database -> invoke createMessage method to save Message to database for Message history after user turn off the program
     	DatabaseHandler.createMessage(pRecipient, this, pMessageContent);
+    	updateChatList();
     }
 
+    public void updateChatList() {
+    	vUserChatList = DatabaseHandler.importMessage(this.getUsername());
+    }
+    
     /*
      * 
      *

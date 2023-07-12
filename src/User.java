@@ -7,14 +7,11 @@ public class User {
 	private int ID;
     private String username;
     private String number;
-    protected List<User> vUserContactList;
-    protected Map<Integer, List<Message>> vUserChatList;
 
     public User(int ID, String username, String number) {
     	this.ID = ID;
         this.username = username;
         this.number = number;
-        this.vUserChatList = new HashMap<>();
     }
     
     public User(User pUser) {
@@ -38,11 +35,12 @@ public class User {
     	return ID;
     }
     
-    /*
+/*    
+    *
      * Method to receive a Message from other User, Updating vUserChatList for certain ID
      * @param pChatID = ID that assigned between two User
      * @param pMessage = Message that will be saved to messageList
-     */
+     *
     public void receiveMessage(int pChatID, Message pMessage) {
     	// Update List<Message> by its ChatID (key of Map)
     	List<Message> messageList = vUserChatList.getOrDefault(pChatID, new ArrayList<>());
@@ -54,7 +52,7 @@ public class User {
         vUserChatList.put(pChatID, messageList);
     }
     
-/*	
+	
  * Code in this section might be move to CurrentUser
     // Menambahkan Kontak kedalam List Kontak User
     public void addContact(User user) {
