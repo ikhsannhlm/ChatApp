@@ -28,8 +28,9 @@ public class MainMenu {
                     currentUser.sentPersonalChat();
                     break;
                 case 2:
-                    System.out.println("Chat Group");
+                    System.out.println("Chat History");
                     System.out.println("===========");
+                    currentUser.displayChat();
                     break;
                 case 3:
                     System.out.println("Contact List");
@@ -70,7 +71,7 @@ public class MainMenu {
         System.out.println();
         System.out.println("Menu: ");
         System.out.println("1. Chat Personal");
-        System.out.println("2. Chat Group");
+        System.out.println("2. Chat History");
         System.out.println("3. Show Contact");
         System.out.println("4. Add New Contact");
         System.out.println("5. Make new Group");

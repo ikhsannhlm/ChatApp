@@ -51,6 +51,9 @@ public class Chat {
 		return vChatParticipant;
 	}
 	
+	/*
+	 * method to see Chat Detail.. (basically just for testing)
+	 */
 	public String toString() {
 		return "ChatID: " + vChatID +
 				"\nChatParticipant: " + getChatParticipantUsername();

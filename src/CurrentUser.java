@@ -67,25 +67,55 @@ public class CurrentUser extends User {
      * @param pMessageContent = Content of Message
      */
     public void sentMessage(User pRecipient, String pMessageContent) {
-    	// sent message -> invoke recieveMessage method of recipient, allowing recipient to add the Message to their chatList 
-    	/*
-    	List<Chat> hChatList = DatabaseHandler.importChat();
-    	for (Chat c : hChatList) {
-    		if (c.getChatParticipantUsername().contains(pRecipient.getUsername()) && c.getChatParticipantUsername().contains(this.getUsername())) {
-    			Message m = new Message(c.getChatID(), this, pRecipient, pMessageContent);
-    			pRecipient.receiveMessage(c.getChatID(), m);
-    		}
-    	}
-    	*/
+    	
     	// save to Database -> invoke createMessage method to save Message to database for Message history after user turn off the program
+    	// then update UserChatList
     	DatabaseHandler.createMessage(pRecipient, this, pMessageContent);
     	updateChatList();
+    	
     }
 
     public void updateChatList() {
     	vUserChatList = DatabaseHandler.importMessage(this.getUsername());
     }
     
+    public void displayChat() {
+    	if (vUserContactList.isEmpty()) {
+            System.out.println("There's no contacts");
+        } else {
+        	System.out.println("Select contact to see Chat: ");
+            for (User contact : vUserContactList) {
+                System.out.println(contact.getUsername() + " (" + contact.getNumber() + ")");
+            }
+            
+            User hContactedUser = null;
+            
+            String username = GlobalScanner.getScanner().nextLine();
+            
+            for (User contact : vUserContactList) {
+            	if (contact.getUsername().equalsIgnoreCase(username)) {
+            		hContactedUser = contact;
+            		break;
+            	}
+            }
+            
+            List<Chat> chatList = DatabaseHandler.importChat();
+    		for (Chat c : chatList) {
+    			if (c.getChatParticipantUsername().contains(this.getUsername()) && c.getChatParticipantUsername().contains(hContactedUser.getUsername())) {
+    				showChat(c.getChatID());
+    				break;
+    			}
+    		}
+            
+        }
+    }
+    
+    public void showChat(int pChatID) {
+    	List<Message> messageList = vUserChatList.get(pChatID);
+    	for (Message m : messageList) {
+    		System.out.println(m);
+    	}
+    }
     /*
      * 
      *

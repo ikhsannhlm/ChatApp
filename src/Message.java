@@ -11,7 +11,13 @@ public class Message {
     private LocalTime vMessageTime;
     private Group recipientGroup;
 
-    // Konstruktor
+    /*
+     * Constructor of Message
+     * @param pChatID = unique key that identify where this Message belongs to
+     * @param sender = User that send this Message
+     * @param recipientUser = User that receive the Message
+     * @param content = content of Message (max around 5000 char including white space)
+     */
     public Message(int pChatID, User sender, User recipientUser, String content) {
     	this.vChatID = pChatID;
         this.sender = sender;
@@ -19,6 +25,11 @@ public class Message {
         this.content = content;
     }
     
+    /*
+     * Set Date and Time of a Message
+     * @param pDate = Date of Message
+     * @param pTime = Time of Message
+     */
     public void setMessageDateTime(LocalDate pDate, LocalTime pTime) {
     	if (pDate == null && pTime == null) {
     		this.vMessageDate = LocalDate.now();
@@ -29,8 +40,27 @@ public class Message {
     	}
     }
     
+    /*
+     * @return unique key of the Message
+     */
     public int getChatID() {
     	return vChatID;
+    }
+    
+    /*
+     * @return Date of Message
+     */
+    public LocalDate getChatDate() {
+    	return vMessageDate;
+    }
+    
+    /*
+     * @return String of detailed Message
+     */
+    public String toString() {
+    	String usernameAndNumber = "\u001B[92m" + sender.getUsername() + " (" + sender.getNumber() + ")" + "\u001B[0m";
+    	String formattedString = String.format("%-30s %-10s%n%s", usernameAndNumber, vMessageTime, content);
+    	return formattedString;
     }
     
     // Konstruktor
@@ -62,9 +92,10 @@ public class Message {
     }
 
     // Mendapatkan Timestamp
-/*    public LocalDateTime getTimestamp() {
+/*    
+  	public LocalDateTime getTimestamp() {
         return vMessageDate;
-    }*/
+    }
 
 
     // Override Kelas Object sehingga menghasilkan data yang dibutuhkan
@@ -78,5 +109,6 @@ public class Message {
             return "[" + formattedTimestamp + "] " + sender.getUsername() + ": " + content;
         }
     }
+*/
 }
 

@@ -189,7 +189,7 @@ public class DatabaseHandler {
 			
     		String query = "SELECT m.ChatID, a.AccountName AS Sender, a2.AccountName AS Receiver, m.MessageContent, m.MessageDate, m.MessageTime "
                     + "FROM message m JOIN account a ON a.AccountID = m.SenderID "
-                    + "JOIN account a2 ON a2.AccountID = m.RecieverID WHERE a.AccountName = ? OR a2.AccountName = ? ORDER BY m.ChatID";
+                    + "JOIN account a2 ON a2.AccountID = m.RecieverID WHERE a.AccountName = ? OR a2.AccountName = ? ORDER BY m.ChatID, m.MessageDate, m.MessageTime";
             PreparedStatement st = DB.prepareStatement(query);
             st.setString(1, pUsername);
             st.setString(2, pUsername);
